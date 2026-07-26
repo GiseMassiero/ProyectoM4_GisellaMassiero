@@ -1,0 +1,101 @@
+.login-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(42, 40, 34, 0.05), 0 20px 40px rgba(47, 111, 94, 0.12);
+    max-width: 360px;
+    margin: 3rem auto;
+}
+
+.login-redirect {
+    color: var(--text-done);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.login-form__field {
+    text-align: left;
+}
+
+.login-form__input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    background: var(--surface);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.login-form__input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px rgba(31, 157, 124, 0.16);
+}
+
+.login-form__input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--bg);
+}
+
+.login-form__error {
+    color: #b00020;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    text-align: left;
+}
+
+.login-btn {
+    background: var(--gradient-primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(31, 157, 124, 0.28);
+    padding: 0.625rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s, transform 0.1s;
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    background: var(--indigo-dark);
+}
+
+.login-btn--loading,
+.login-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.login-form__register {
+    font-size: 0.875rem;
+    color: var(--text-done);
+    margin-top: 0.25rem;
+}
+
+.login-form__register a {
+    color: var(--indigo);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-form__register a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,72 @@
+.welcome-page {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.welcome-page__toggle {
+    margin-bottom: 0.5rem;
+}
+
+.welcome-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.75rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(42, 40, 34, 0.05), 0 20px 40px rgba(47, 111, 94, 0.12);
+    max-width: 380px;
+    margin: 3rem auto;
+}
+
+.welcome-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    margin-bottom: 0.75rem;
+}
+
+.welcome-title {
+    font-family: var(--font-display);
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+}
+
+.welcome-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-done);
+    margin-bottom: 1.75rem;
+}
+
+.welcome-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--gradient-primary);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.welcome-cta:hover {
+    background: var(--indigo-dark);
+    transform: scale(1.05);
+}
+
+.welcome-cta__arrow {
+    transition: transform 0.15s;
+}
+
+.welcome-cta:hover .welcome-cta__arrow {
+    transform: translateX(3px);
+}
