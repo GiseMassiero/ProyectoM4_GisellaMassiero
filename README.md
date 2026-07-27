@@ -1,76 +1,236 @@
-# Gestor de tareas — Proyecto Final Módulo 4 (Henry)
+# Gestor de tareas — Proyecto Final Módulo 4 
 
-SPA de gestión de tareas hecha con React + TypeScript, Firebase (Auth + Firestore),
-notificaciones por email con AWS SES y deploy en Vercel.
+SPA de gestión de tareas hecha con **React + TypeScript**, con autenticación y persistencia
+en **Firebase** (Auth + Firestore), notificaciones por email vía **AWS SES** a través de una
+función serverless, y deploy en **Vercel**. Proyecto integrador del Módulo 4 del bootcamp de
+Soy Henry, para el cliente ficticio **MateCode**.
+
+🔗 **Demo en producción:** https://proyecto-m4-gisella-massiero.vercel.app
+
+## Capturas
+
+| Bienvenida | Login |
+|---|---|
+| ![Pantalla de bienvenida] | ![Login] |
+
+| Gestión de tareas | Resumen por email |
+|---|---|
+| ![Tareas] | ![Email de resumen] |
+
+## Funcionalidades
+
+- **Autenticación:** registro y login con email/contraseña y con Google, rutas privadas,
+  sesión persistente, errores de Firebase traducidos a mensajes legibles.
+- **Gestión de tareas (CRUD):** crear, editar, eliminar y marcar como completada. Cada usuario
+  ve únicamente sus propias tareas.
+- **Tiempo real:** la lista se actualiza sola con `onSnapshot`, sin recargar la página.
+- **Filtros:** Todas / Pendientes / Completadas.
+- **Resumen por email:** un botón dispara una función serverless que envía por AWS SES un
+  resumen del estado de las tareas al email del usuario logueado.
+- **Modo claro/oscuro** con preferencia guardada en el navegador.
+- **Tests** de componentes y del servicio de Firestore, con mocks (sin llamadas reales a
+  Firebase ni a AWS).
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | React 19 + TypeScript + Vite |
+| Ruteo | React Router v7 |
+| Backend as a Service | Firebase (Authentication + Firestore) |
+| Email | AWS SES, invocado desde una función serverless de Vercel |
+| Tests | Vitest + React Testing Library |
+| Deploy | Vercel |
 
 ## Estructura del proyecto
 
 ```
 src/
-├── components/           # Componentes reutilizables (UI)
+├── components/            # Componentes reutilizables (UI)
 │   ├── Navbar/
-│   ├── RequireAuth/       # Protege rutas privadas
-│   ├── TaskForm/          # Crear tarea
-│   ├── TaskList/          # Listar tareas
-│   ├── TaskItem/          # Una tarea (toggle, editar, eliminar)
-│   ├── TaskEditModal/     # Modal para editar una tarea
-│   └── EmailSummaryButton/# Botón para mandar el resumen por email
-├── pages/                 # Componentes de ruta (una página = una URL)
-│   ├── HomePage/          # Ruta privada "/" — arma TaskForm + TaskList
-│   ├── LoginPage/          
-│   └── RegisterPage/
-├── features/auth/         # Contexto de autenticación (useAuth) + errores
-├── services/               # Conexión con servicios externos
-│   ├── firebase.ts        # Init de Firebase (Auth + Firestore)
-│   ├── firestore.ts       # CRUD de tareas
-│   └── email.ts            # Llama a la función serverless de email
-├── helpers/                # Funciones puras de validación
-└── types/                  # Interfaces de TypeScript (Task, TaskFormData)
+│   ├── RequireAuth/        # Protege las rutas privadas
+│   ├── TaskForm/           # Crear tarea
+│   ├── TaskList/           # Listar tareas
+│   ├── TaskItem/           # Una tarea: toggle, editar, eliminar
+│   ├── TaskEditModal/      # Modal para editar una tarea
+│   ├── EmailSummaryButton/ # Botón para mandar el resumen por email
+│   └── ThemeToggle/        # Modo claro/oscuro
+├── pages/                  # Componentes de ruta (una página = una URL)
+│   ├── WelcomePage/        # "/" — bienvenida pública
+│   ├── HomePage/           # "/app" — ruta privada, arma TaskForm + TaskList
+│   ├── LoginPage/          # "/login"
+│   └── RegisterPage/       # "/register"
+├── features/auth/          # Contexto de autenticación (useAuth) + traducción de errores
+├── services/                # Conexión con servicios externos
+│   ├── firebase.ts         # Init de Firebase (Auth + Firestore) + proveedor de Google
+│   ├── firestore.ts        # CRUD de tareas (con tests mockeados)
+│   └── email.ts             # Llama a la función serverless de email
+├── helpers/                 # Funciones puras de validación de formularios
+└── types/                   # Interfaces de TypeScript (Task, TaskFormData)
 
 api/
-└── send-summary.ts        # Función serverless de Vercel (AWS SES)
+└── send-summary.ts         # Función serverless de Vercel: arma y manda el email con AWS SES
+
+
+## Cómo correrlo en local
+
+### 1. Clonar e instalar
+
+```bash
+git clone https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero.git
+cd ProyectoM4_GisellaMassiero
+npm install
 ```
 
-Cada componente vive en su propia carpeta con su `.tsx` y su `.css` al lado
-(mismo patrón que usamos en las lecturas del módulo, ej. M4L9-Firestore).
+### 2. Variables de entorno
 
-## Cómo seguir desde acá
+Copiá `.env.example` a `.env` y completá los valores:
 
-1. `npm install` para bajar las dependencias.
-2. Crear un proyecto en [Firebase Console](https://console.firebase.google.com/),
-   activar **Authentication** (Email/Password) y **Firestore Database**.
-3. Copiar `.env.example` a `.env` y completar las variables `VITE_FIREBASE_*`
-   con los datos de tu proyecto de Firebase.
-4. `npm run dev` para levantar el proyecto.
+```bash
+cp .env.example .env
+```
 
-## Pendientes (para ir armando juntos, uno a la vez)
+```
+# Firebase (frontend — se puede exponer, la seguridad real la dan las Reglas de Firestore)
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
 
-- [ ] **Reglas de seguridad de Firestore**: por ahora cualquiera con la config
-      podría leer la colección `tasks`. Hay que restringir para que cada
-      usuario solo lea/escriba documentos donde `userId == request.auth.uid`.
-- [ ] **Índice compuesto de Firestore**: la primera vez que corra
-      `subscribeToUserTasks`, la consola del navegador va a tirar un link
-      para crear el índice (where + orderBy juntos lo piden). Hay que crearlo
-      desde ahí.
-- [ ] **AWS SES real**: `api/send-summary.ts` está armado pero el envío en sí
-      está comentado como TODO — falta instalar `@aws-sdk/client-ses` y armar
-      el `SendEmailCommand`.
-- [ ] **Tests**: ya hay ejemplos funcionando en `TaskForm.test.tsx` y
-      `TaskList.test.tsx`. Faltarían tests para `TaskItem`, los helpers de
-      validación, y mockear Firebase/Firestore para testear `HomePage`.
-- [ ] **Deploy en Vercel**: conectar el repo, y cargar ahí las variables de
-      entorno (las `VITE_FIREBASE_*` y también las de AWS, que en Vercel NO
-      deben llevar el prefijo `VITE_` para que no terminen en el bundle del
-      cliente).
+# AWS SES (solo se usan del lado del servidor, en api/send-summary.ts)
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+SES_SENDER_EMAIL=
+```
 
-## Notas sobre el código de las lecturas
+Las claves de Firebase se obtienen en Firebase Console → Configuración del proyecto → Tus apps.
+Las de AWS se generan en IAM (usuario con permiso `AmazonSESFullAccess`) → Credenciales de
+seguridad → Claves de acceso.
 
-Al armar esto vi un par de detalles del material de la lectura que dejé
-corregidos acá (te los cuento por si el profe pregunta por qué difiere):
+### 3. Levantar el proyecto
 
-- En `TaskForm.tsx` de la lectura, el tipo del evento del submit era
-  `React.SubmitEvent<HTMLFormElement>`, que no existe en React — el tipo
-  correcto es `React.FormEvent<HTMLFormElement>`. Ya está corregido en todos
-  los formularios de este proyecto.
-- El `Task` de la lectura no tenía `id` ni `userId`, necesarios para poder
-  editar/eliminar una tarea puntual en Firestore y para filtrar por usuario.
+Para trabajar solo en el frontend (sin probar el email):
+
+```bash
+npm run dev
+```
+
+Para probar también la función serverless del email, hace falta la CLI de Vercel (levanta
+frontend + funciones juntos):
+
+```bash
+npm i -g vercel
+vercel dev
+```
+
+### 4. Tests
+
+```bash
+npm test
+```
+
+### 5. Build de producción
+
+```bash
+npm run build
+```
+
+## Seguridad
+
+- `.env` nunca se sube al repositorio (está en `.gitignore`); `.env.example` documenta qué
+  variables hacen falta, sin valores reales.
+- Las credenciales de AWS **solo** existen del lado del servidor, dentro de
+  `api/send-summary.ts`. El frontend nunca las toca ni las descarga al navegador.
+
+- **Reglas de Firestore:** cada tarea solo puede ser leída, editada o borrada por el usuario
+  dueño (`request.auth.uid == resource.data.userId`), verificado explícitamente probando con
+  dos usuarios distintos que ninguno ve las tareas del otro.
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tasks/{taskId} {
+      allow read, update, delete: if request.auth != null
+                                    && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                     && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
+```
+
+## Tests
+
+- `TaskForm.test.tsx`: valida que no se cree una tarea con título vacío, y que se llame
+  correctamente a `onAddTask` con los datos del formulario.
+- `TaskList.test.tsx`: mensaje de lista vacía, y renderizado de cada tarea.
+- `EmailSummaryButton.test.tsx`: estado de éxito, estado de carga (botón deshabilitado), y
+  **el caso borde de error del serverless** (mockeando que la función de email falla).
+- `firestore.test.ts`: mockea **todo** el SDK de Firebase (`firebase/firestore`) — ningún test
+  se conecta a una base de datos real. Verifica que `createTask`, `updateTask`,
+  `toggleTaskCompleted` y `deleteTask` llaman a las funciones correctas con los datos
+  correctos, y que `subscribeToUserTasks` arma bien el filtro por usuario y maneja tanto el
+  caso de éxito como el de error de Firestore.
+
+
+## Deploy
+
+Deployado en Vercel, con las 10 variables de entorno cargadas en
+Project Settings → Environment Variables (marcadas como "Sensitive"). El dominio de
+producción está agregado como dominio autorizado en Firebase Authentication
+(Authentication → Configuración → Dominios autorizados), paso necesario para que el login
+funcione fuera de `localhost`.
+
+## Decisiones arquitectónicas
+
+- **Tests co-ubicados junto a cada componente** (`TaskForm.test.tsx` al lado de
+  `TaskForm.tsx`) en vez de una única carpeta `tests/` centralizada. Se eligió así porque
+  facilita encontrar y mantener el test correspondiente a cada pieza sin saltar entre
+  carpetas — es un patrón ampliamente usado en proyectos de React.
+- **Carpeta `api/` para la función serverless (no `functions/`)**: esto no es una preferencia
+  estética, es un requisito técnico de Vercel — su detección automática de funciones
+  serverless busca específicamente una carpeta llamada `api/` en la raíz del proyecto. Usar
+  otro nombre haría que el deploy no reconozca la función de email.
+- **Rutas definidas directamente en `App.tsx`** en vez de en una carpeta `routes/` separada:
+  para el tamaño de este proyecto (4 rutas), una carpeta aparte agregaría indirección sin
+  beneficio real.
+- **`helpers/` en vez de `utils/`**: mismo propósito (funciones puras reutilizables), distinto
+  nombre de carpeta.
+
+## Flujo de envío de emails
+
+1. El usuario, ya logueado, hace click en "Enviar resumen por email" (`EmailSummaryButton`).
+2. El componente llama a `sendTaskSummaryEmail` (`src/services/email.ts`), que hace un
+   `fetch` a `/api/send-summary` con el email del usuario y la lista de tareas.
+3. Esa función serverless (`api/send-summary.ts`) corre **del lado del servidor de Vercel**,
+   nunca en el navegador. Ahí arma el HTML del resumen, separado en tareas pendientes y
+   completadas.
+4. La función instancia el `SESClient` de AWS con las credenciales que viven como variables
+   de entorno del servidor, y manda el email con `SendEmailCommand`.
+5. El frontend recibe la respuesta y actualiza el estado a éxito o error, mostrándoselo al
+   usuario (`EmailSummaryButton` maneja los tres estados: carga, éxito y error).
+
+Las credenciales de AWS nunca viajan al navegador: el frontend solo conoce la URL
+`/api/send-summary`, no sabe nada de SES ni de las claves.
+
+## Limitación conocida: AWS SES en modo sandbox
+
+La cuenta de AWS usada en este proyecto es nueva, por lo que SES está en **modo sandbox**:
+mientras esto no cambie, el envío de email solo funciona si **tanto el remitente como el
+destinatario** están verificados manualmente como identidades en SES. Esto significa que,
+por ahora, un evaluador logueado con un email distinto al verificado va a ver el mensaje de
+error manejado en la UI ("No se pudo enviar el resumen"), en vez de recibir el email.
+
+La función y la integración están completas y probadas (funcionan de punta a punta entre
+identidades verificadas) — se solicitó a AWS el acceso de producción para levantar esta
+restricción y que funcione con cualquier destinatario.
+
+## Uso de IA durante el desarrollo
+
+Se utilizó Claude como asistente durante el desarrollo. El detalle de los prompts usados,
+las decisiones tomadas a partir de sus respuestas, y la justificación técnica de cada una,
+está documentado por separado en [`docs/uso-de-ia.md`](./docs/uso-de-ia.md).

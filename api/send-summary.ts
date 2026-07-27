@@ -1,19 +1,3 @@
-// Esta funcion corre en el servidor de Vercel, NUNCA en el navegador.
-// Aca si se pueden usar las credenciales de AWS de forma segura, porque
-// viven como variables de entorno del lado del servidor (nunca en el bundle
-// de React que descarga el usuario).
-//
-// Variables de entorno a configurar en Vercel
-// (Project Settings > Environment Variables) y tambien en tu .env local:
-//   AWS_ACCESS_KEY_ID
-//   AWS_SECRET_ACCESS_KEY
-//   AWS_REGION           <- ej: us-east-1
-//   SES_SENDER_EMAIL     <- tiene que estar verificado en AWS SES
-//
-// Mientras tu cuenta de AWS este en modo "sandbox" (el estado por defecto),
-// el email DESTINO tambien tiene que estar verificado en SES, o el envio va
-// a fallar con "Email address not verified".
-
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 

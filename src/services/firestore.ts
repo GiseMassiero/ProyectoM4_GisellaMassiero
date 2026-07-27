@@ -14,14 +14,6 @@ import type { Task, TaskFormData } from "../types/task";
 
 const tasksCollection = collection(db, "tasks");
 
-/**
- * Se suscribe en tiempo real a las tareas del usuario logueado.
- * Devuelve una funcion "unsubscribe" para cortar la suscripcion en el useEffect.
- *
- * OJO: where + orderBy juntos piden un indice compuesto en Firestore.
- * La primera vez que corras esto la consola te va a tirar un link para crearlo
- * desde la consola de Firebase (tarda 1-2 minutos en generarse).
- */
 export function subscribeToUserTasks(
     userId: string,
     onChange: (tasks: Task[]) => void,

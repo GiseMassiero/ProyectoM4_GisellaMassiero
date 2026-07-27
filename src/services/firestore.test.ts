@@ -22,8 +22,7 @@ const {
     mockCollection: vi.fn(),
 }));
 
-// Mockeamos todo el SDK de Firestore: los tests de este archivo
-// NUNCA se conectan a Firebase de verdad.
+
 vi.mock("firebase/firestore", () => ({
     collection: (...args: unknown[]) => mockCollection(...args),
     addDoc: (...args: unknown[]) => mockAddDoc(...args),
@@ -36,9 +35,7 @@ vi.mock("firebase/firestore", () => ({
     onSnapshot: (...args: unknown[]) => mockOnSnapshot(...args),
 }));
 
-// Tambien mockeamos nuestro propio servicio de firebase.ts, para no
-// inicializar una app de Firebase real (que necesitaria las variables
-// de entorno de verdad) durante los tests.
+
 vi.mock("./firebase", () => ({
     db: { __fakeDb: true },
 }));
