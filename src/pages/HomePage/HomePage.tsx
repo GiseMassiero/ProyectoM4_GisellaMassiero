@@ -88,6 +88,10 @@ function HomePage() {
 
     return (
         <div className="home-page">
+            <p className="home-page__greeting">
+                Hola, <strong>{user?.email}</strong> 👋
+            </p>
+
             <TaskForm onAddTask={handleAddTask} />
 
             {loading && <p className="home-page__status">Cargando tareas...</p>}
@@ -143,4 +147,3 @@ function HomePage() {
 }
 
 export default HomePage;
-

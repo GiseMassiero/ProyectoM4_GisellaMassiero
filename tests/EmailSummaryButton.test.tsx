@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import EmailSummaryButton from "./EmailSummaryButton";
+import EmailSummaryButton from "../src/components/EmailSummaryButton/EmailSummaryButton";
 
 describe("EmailSummaryButton", () => {
     it("muestra 'Resumen enviado.' cuando onSend resuelve correctamente", async () => {

@@ -1,37 +1,48 @@
 # Gestor de tareas — Proyecto Final Módulo 4 
 
-SPA de gestión de tareas hecha con **React + TypeScript**, con autenticación y persistencia
+ SPA de gestión de tareas hecha con **React + TypeScript**, con autenticación y persistencia
 en **Firebase** (Auth + Firestore), notificaciones por email vía **AWS SES** a través de una
 función serverless, y deploy en **Vercel**. Proyecto integrador del Módulo 4 del bootcamp de
 Soy Henry, para el cliente ficticio **MateCode**.
 
 🔗 **Demo en producción:** https://proyecto-m4-gisella-massiero.vercel.app
 
-## Capturas
+📂 Repositorio:
+https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero
 
-| Bienvenida | Login |
-|---|---|
-| ![Pantalla de bienvenida] | ![Login] |
+---
 
-| Gestión de tareas | Resumen por email |
-|---|---|
-| ![Tareas] | ![Email de resumen] |
-
-## Funcionalidades
+## 📋  Funcionalidades
 
 - **Autenticación:** registro y login con email/contraseña y con Google, rutas privadas,
   sesión persistente, errores de Firebase traducidos a mensajes legibles.
-- **Gestión de tareas (CRUD):** crear, editar, eliminar y marcar como completada. Cada usuario
-  ve únicamente sus propias tareas.
+
+
+
+- **Gestión de tareas (CRUD):** crear, editar, eliminar y marcar como completada. Cada usuario ve únicamente sus propias tareas.
+
+
 - **Tiempo real:** la lista se actualiza sola con `onSnapshot`, sin recargar la página.
+
+
 - **Filtros:** Todas / Pendientes / Completadas.
+
+
 - **Resumen por email:** un botón dispara una función serverless que envía por AWS SES un
   resumen del estado de las tareas al email del usuario logueado.
+
+
+
 - **Modo claro/oscuro** con preferencia guardada en el navegador.
+
+
+
 - **Tests** de componentes y del servicio de Firestore, con mocks (sin llamadas reales a
   Firebase ni a AWS).
 
-## Stack
+---
+
+## 🛠️ Stack
 
 | Capa | Tecnología |
 |---|---|
@@ -42,7 +53,9 @@ Soy Henry, para el cliente ficticio **MateCode**.
 | Tests | Vitest + React Testing Library |
 | Deploy | Vercel |
 
-## Estructura del proyecto
+---
+
+## 📂 Estructura del proyecto
 
 ```
 src/
@@ -72,23 +85,23 @@ api/
 └── send-summary.ts         # Función serverless de Vercel: arma y manda el email con AWS SES
 
 
-## Cómo correrlo en local
+## 🚀 Cómo correrlo en local
 
-### 1. Clonar e instalar
 
-```bash
+###  📥 1. Clonar e instalar
+
 git clone https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero.git
 cd ProyectoM4_GisellaMassiero
 npm install
-```
 
-### 2. Variables de entorno
+
+### 🔐 2. Variables de entorno
 
 Copiá `.env.example` a `.env` y completá los valores:
 
-```bash
+
 cp .env.example .env
-```
+
 
 ```
 # Firebase (frontend — se puede exponer, la seguridad real la dan las Reglas de Firestore)
@@ -98,6 +111,9 @@ VITE_FIREBASE_PROJECT_ID=
 VITE_FIREBASE_STORAGE_BUCKET=
 VITE_FIREBASE_MESSAGING_SENDER_ID=
 VITE_FIREBASE_APP_ID=
+
+
+---
 
 # AWS SES (solo se usan del lado del servidor, en api/send-summary.ts)
 AWS_ACCESS_KEY_ID=
@@ -110,7 +126,8 @@ Las claves de Firebase se obtienen en Firebase Console → Configuración del pr
 Las de AWS se generan en IAM (usuario con permiso `AmazonSESFullAccess`) → Credenciales de
 seguridad → Claves de acceso.
 
-### 3. Levantar el proyecto
+
+### ▶️ 3. Levantar el proyecto
 
 Para trabajar solo en el frontend (sin probar el email):
 
@@ -126,19 +143,21 @@ npm i -g vercel
 vercel dev
 ```
 
-### 4. Tests
+### 🧪 4. Tests
 
 ```bash
 npm test
 ```
 
-### 5. Build de producción
+### 📦 5. Build de producción
 
 ```bash
 npm run build
 ```
 
-## Seguridad
+---
+
+## 🔒 Seguridad
 
 - `.env` nunca se sube al repositorio (está en `.gitignore`); `.env.example` documenta qué
   variables hacen falta, sin valores reales.
@@ -163,7 +182,7 @@ service cloud.firestore {
 }
 ```
 
-## Tests
+## 🧪 Tests
 
 - `TaskForm.test.tsx`: valida que no se cree una tarea con título vacío, y que se llame
   correctamente a `onAddTask` con los datos del formulario.
@@ -176,6 +195,7 @@ service cloud.firestore {
   correctos, y que `subscribeToUserTasks` arma bien el filtro por usuario y maneja tanto el
   caso de éxito como el de error de Firestore.
 
+---
 
 ## Deploy
 
@@ -185,7 +205,10 @@ producción está agregado como dominio autorizado en Firebase Authentication
 (Authentication → Configuración → Dominios autorizados), paso necesario para que el login
 funcione fuera de `localhost`.
 
-## Decisiones arquitectónicas
+
+---
+
+## 🏗️ Decisiones arquitectónicas
 
 - **Tests co-ubicados junto a cada componente** (`TaskForm.test.tsx` al lado de
   `TaskForm.tsx`) en vez de una única carpeta `tests/` centralizada. Se eligió así porque
@@ -198,10 +221,11 @@ funcione fuera de `localhost`.
 - **Rutas definidas directamente en `App.tsx`** en vez de en una carpeta `routes/` separada:
   para el tamaño de este proyecto (4 rutas), una carpeta aparte agregaría indirección sin
   beneficio real.
-- **`helpers/` en vez de `utils/`**: mismo propósito (funciones puras reutilizables), distinto
-  nombre de carpeta.
+- **`helpers/` en vez de `utils/`**: mismo propósito (funciones puras reutilizables), distinto nombre de carpeta.
 
-## Flujo de envío de emails
+---
+
+## 📧 Flujo de envío de emails
 
 1. El usuario, ya logueado, hace click en "Enviar resumen por email" (`EmailSummaryButton`).
 2. El componente llama a `sendTaskSummaryEmail` (`src/services/email.ts`), que hace un
@@ -217,7 +241,10 @@ funcione fuera de `localhost`.
 Las credenciales de AWS nunca viajan al navegador: el frontend solo conoce la URL
 `/api/send-summary`, no sabe nada de SES ni de las claves.
 
-## Limitación conocida: AWS SES en modo sandbox
+---
+
+
+##  ⚠️ Limitación conocida: AWS SES en modo sandbox
 
 La cuenta de AWS usada en este proyecto es nueva, por lo que SES está en **modo sandbox**:
 mientras esto no cambie, el envío de email solo funciona si **tanto el remitente como el
@@ -229,8 +256,42 @@ La función y la integración están completas y probadas (funcionan de punta a 
 identidades verificadas) — se solicitó a AWS el acceso de producción para levantar esta
 restricción y que funcione con cualquier destinatario.
 
-## Uso de IA durante el desarrollo
+---
 
-Se utilizó Claude como asistente durante el desarrollo. El detalle de los prompts usados,
-las decisiones tomadas a partir de sus respuestas, y la justificación técnica de cada una,
-está documentado por separado en [`docs/uso-de-ia.md`](./docs/uso-de-ia.md).
+## 🤖 Uso de IA durante el desarrollo
+
+
+Durante el desarrollo del proyecto utilicé Inteligencia Artificial como herramienta de asistencia técnica y apoyo en el proceso de implementación. 
+
+La IA no reemplazó el diseño ni la lógica del proyecto, sino que se empleó para acelerar tareas repetitivas y resolver dudas puntuales.
+
+¿En qué situaciones fue utilizada?:
+
+* Resolución de errores de React, TypeScript y Firebase;
+* Explicación de conceptos relacionados con Firestore, autenticación y funciones serverless;
+* Organización de la estructura de carpetas y componentes;
+* Revisión y mejora de estilos CSS;
+* Optimización y refactorización de código;
+* Generación de ejemplos para pruebas unitarias con Vitest y React Testing Library;
+
+
+¿Dónde fue más efectiva?:
+
+La IA me resultó especialmente útil para:
+
+* Analizar mensajes de error y proponer posibles soluciones;
+* Explicar el funcionamiento de librerías y APIs utilizadas;
+* Sugerir mejoras de organización sin modificar la funcionalidad del proyecto;
+* Acelerar la documentación y la redacción técnica.
+
+
+Buenas prácticas aprendidas:
+
+Durante el desarrollo comprobé que la IA ofrece mejores resultados cuando:
+
+* Se proporcionan fragmentos completos de código y el contexto del problema;
+* Se validan todas las respuestas antes de incorporarlas al proyecto;
+* Se utilizan sus sugerencias como apoyo y no como sustituto del razonamiento propio;
+* Se realizan consultas específicas y acotadas en lugar de preguntas generales.
+
+La implementación final, las decisiones arquitectónicas y la validación del funcionamiento fueron realizadas y verificadas por mí.  

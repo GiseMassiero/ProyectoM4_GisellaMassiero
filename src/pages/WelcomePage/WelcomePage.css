@@ -10,11 +10,18 @@
 
 .welcome-card {
     background: var(--surface);
-    border: 1px solid var(--border);
+    border: 1.5px solid #10b981;
+    /* Borde neón cian/verde */
     border-radius: 20px;
     padding: 2.75rem 2rem;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(42, 40, 34, 0.05), 0 20px 40px rgba(47, 111, 94, 0.12);
+
+    /* Sombra Neón Intensa y Marcada */
+    box-shadow:
+        0 0 20px rgba(16, 185, 129, 0.4),
+        0 0 40px rgba(16, 185, 129, 0.25),
+        0 0 60px rgba(16, 185, 129, 0.15);
+
     max-width: 380px;
     margin: 3rem auto;
 }

@@ -36,7 +36,7 @@ vi.mock("firebase/firestore", () => ({
 }));
 
 
-vi.mock("./firebase", () => ({
+vi.mock("../src/services/firebase", () => ({
     db: { __fakeDb: true },
 }));
 
@@ -46,7 +46,7 @@ import {
     toggleTaskCompleted,
     deleteTask,
     subscribeToUserTasks,
-} from "./firestore";
+} from "../src/services/firestore";
 
 beforeEach(() => {
     vi.clearAllMocks();

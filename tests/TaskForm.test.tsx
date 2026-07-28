@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import TaskForm from "./TaskForm";
+import TaskForm from "../src/components/TaskForm/TaskForm";
 
 describe("TaskForm", () => {
     it("no llama a onAddTask si el titulo esta vacio", async () => {

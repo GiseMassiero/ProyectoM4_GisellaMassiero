@@ -19,6 +19,9 @@ dist-ssr
 # Vercel
 .vercel
 
+# TypeScript
+*.tsbuildinfo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

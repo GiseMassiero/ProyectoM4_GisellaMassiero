@@ -16,6 +16,7 @@ function TaskItem({ task, onToggle, onDelete, onEdit }: TaskItemProps) {
                 type="checkbox"
                 checked={task.completed}
                 onChange={onToggle}
+                title={task.completed ? "Volver a pendiente" : "Marcar como completada"}
             />
             <div className="task-item__content">
                 <span className="task-item__title">{task.title}</span>

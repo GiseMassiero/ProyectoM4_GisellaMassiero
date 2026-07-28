@@ -1,3 +1,15 @@
+.home-page__greeting {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-done);
+    margin-bottom: 1.25rem;
+}
+
+.home-page__greeting strong {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
 .home-page__status {
     text-align: center;
     color: var(--text-done);

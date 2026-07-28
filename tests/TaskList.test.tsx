@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import TaskList from "./TaskList";
-import type { Task } from "../../types/task";
+import TaskList from "../src/components/TaskList/TaskList";
+import type { Task } from "../src/types/task";
 
 const tasks: Task[] = [
     { id: "1", userId: "u1", title: "Tarea 1", description: "", completed: false, createdAt: 1 },
