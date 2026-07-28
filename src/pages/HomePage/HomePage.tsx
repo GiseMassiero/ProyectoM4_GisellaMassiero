@@ -48,7 +48,7 @@ function HomePage() {
 
     const showNotification = (message: string) => {
         setNotification(message);
-        setTimeout(() => setNotification(null), 4000);
+        setTimeout(() => setNotification(null), 2000);
     };
 
     const handleAddTask = async (data: TaskFormData) => {
