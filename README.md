@@ -14,12 +14,23 @@ https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero
 
 ## 📋  Funcionalidades
 
-- **Autenticación:** registro y login con email/contraseña y con Google, rutas privadas,
+- **Página de BIENVENIDA AL GESTOR DE TAREAS
+- 
+
+ <img width="1056" height="710" alt="Captura de pantalla_27-7-2026_233432_localhost" src="https://github.com/user-attachments/assets/e2ea940c-b703-4ab9-94aa-2e3186016d90" />
+ 
+ 
+**Autenticación:** registro y login con email/contraseña y con Google, rutas privadas,
   sesión persistente, errores de Firebase traducidos a mensajes legibles.
 
 
+<img width="354" height="725" alt="Captura de pantalla_27-7-2026_233517_localhost" src="https://github.com/user-attachments/assets/3c340e62-8d59-4937-b432-86bb434beb2c" />
+
 
 - **Gestión de tareas (CRUD):** crear, editar, eliminar y marcar como completada. Cada usuario ve únicamente sus propias tareas.
+
+
+<img width="753" height="634" alt="Captura de pantalla_27-7-2026_233415_localhost" src="https://github.com/user-attachments/assets/eafbf063-b671-46f3-8de3-bc60891a9704" />
 
 
 - **Tiempo real:** la lista se actualiza sola con `onSnapshot`, sin recargar la página.
@@ -28,17 +39,26 @@ https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero
 - **Filtros:** Todas / Pendientes / Completadas.
 
 
+<img width="732" height="692" alt="Captura de pantalla_27-7-2026_233315_localhost" src="https://github.com/user-attachments/assets/200c1295-00b3-49e7-81e8-c2b61ba9312b" />
+
+
 - **Resumen por email:** un botón dispara una función serverless que envía por AWS SES un
   resumen del estado de las tareas al email del usuario logueado.
 
+<img width="594" height="556" alt="Captura de pantalla_28-7-2026_02559_mail google com" src="https://github.com/user-attachments/assets/8b8339b8-291c-4347-bc8d-b9eb1f993352" />
 
 
 - **Modo claro/oscuro** con preferencia guardada en el navegador.
 
+<img width="626" height="620" alt="Captura de pantalla_27-7-2026_233440_localhost" src="https://github.com/user-attachments/assets/ceafb517-184d-4f61-a682-c149b2a3f9b3" />
 
 
 - **Tests** de componentes y del servicio de Firestore, con mocks (sin llamadas reales a
   Firebase ni a AWS).
+  
+
+  <img width="1091" height="500" alt="Captura de pantalla 2026-07-27 160016" src="https://github.com/user-attachments/assets/c241c0be-3c0f-49d2-9c87-3286c507e4f1" />
+
 
 ---
 
@@ -161,26 +181,19 @@ npm run build
 
 - `.env` nunca se sube al repositorio (está en `.gitignore`); `.env.example` documenta qué
   variables hacen falta, sin valores reales.
+  
+  
 - Las credenciales de AWS **solo** existen del lado del servidor, dentro de
   `api/send-summary.ts`. El frontend nunca las toca ni las descarga al navegador.
+
 
 - **Reglas de Firestore:** cada tarea solo puede ser leída, editada o borrada por el usuario
   dueño (`request.auth.uid == resource.data.userId`), verificado explícitamente probando con
   dos usuarios distintos que ninguno ve las tareas del otro.
 
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /tasks/{taskId} {
-      allow read, update, delete: if request.auth != null
-                                    && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null
-                     && request.auth.uid == request.resource.data.userId;
-    }
-  }
-}
-```
+
+<img width="1135" height="515" alt="Captura de pantalla_25-7-2026_18852_console firebase google com" src="https://github.com/user-attachments/assets/225bc83d-14d2-4be9-b582-fd893f33b150" />
+
 
 ## 🧪 Tests
 
@@ -205,15 +218,13 @@ producción está agregado como dominio autorizado en Firebase Authentication
 (Authentication → Configuración → Dominios autorizados), paso necesario para que el login
 funcione fuera de `localhost`.
 
+<img width="819" height="410" alt="image" src="https://github.com/user-attachments/assets/9aca55b3-39e7-49c1-933e-58eae80d7198" />
+
 
 ---
 
 ## 🏗️ Decisiones arquitectónicas
 
-- **Tests co-ubicados junto a cada componente** (`TaskForm.test.tsx` al lado de
-  `TaskForm.tsx`) en vez de una única carpeta `tests/` centralizada. Se eligió así porque
-  facilita encontrar y mantener el test correspondiente a cada pieza sin saltar entre
-  carpetas — es un patrón ampliamente usado en proyectos de React.
 - **Carpeta `api/` para la función serverless (no `functions/`)**: esto no es una preferencia
   estética, es un requisito técnico de Vercel — su detección automática de funciones
   serverless busca específicamente una carpeta llamada `api/` en la raíz del proyecto. Usar
@@ -253,8 +264,7 @@ por ahora, un evaluador logueado con un email distinto al verificado va a ver el
 error manejado en la UI ("No se pudo enviar el resumen"), en vez de recibir el email.
 
 La función y la integración están completas y probadas (funcionan de punta a punta entre
-identidades verificadas) — se solicitó a AWS el acceso de producción para levantar esta
-restricción y que funcione con cualquier destinatario.
+identidades verificadas) —
 
 ---
 
