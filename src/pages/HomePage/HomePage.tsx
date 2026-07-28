@@ -62,8 +62,14 @@ function HomePage() {
     };
 
     const handleDelete = async (id: string) => {
-        await deleteTask(id);
         showNotification("Tarea eliminada.");
+        try {
+            await deleteTask(id);
+        } catch (err) {
+            console.error(err);
+            setError("No se pudo eliminar la tarea.");
+            setNotification(null);
+        }
     };
 
     const handleSaveEdit = async (id: string, data: TaskFormData) => {
