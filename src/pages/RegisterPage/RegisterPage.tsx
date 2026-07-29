@@ -87,7 +87,7 @@ function RegisterPage() {
                             name="password"
                             value={form.password}
                             onChange={handleChange}
-                            placeholder="Contrasena"
+                            placeholder="Contraseña"
                             disabled={status === "loading"}
                         />
                     </div>
