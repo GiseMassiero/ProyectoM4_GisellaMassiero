@@ -20,10 +20,10 @@ function WelcomePage() {
                 <div className="auth-brand">
                     <span className="auth-brand__mark" aria-hidden="true">✓</span>
                 </div>
-                <p className="welcome-eyebrow">Gestor de tareas</p>
+                <p className="welcome-eyebrow">Gestor de Tareas</p>
                 <h2 className="welcome-title">Todo empieza con un pequeño paso.</h2>
                 <p className="welcome-subtitle">
-                    Organiza tu dia con calma y manten tus prioridades cerca.
+                    Organizá tu día con calma y mantén tus prioridades cerca.
                 </p>
                 <button className="welcome-cta" type="button" onClick={handleStart}>
                     <span>{user ? "Ir a mis tareas" : "Comenzar"}</span>

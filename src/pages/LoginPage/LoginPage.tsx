@@ -75,7 +75,7 @@ function LoginPage() {
             </div>
             {state?.from && (
                 <p className="login-redirect">
-                    Necesitas iniciar sesion para acceder a {state.from.pathname}
+                    Necesitas iniciar sesión para acceder a {state.from.pathname}
                 </p>
             )}
             <form className="login-form" onSubmit={handleSubmit} noValidate>
@@ -97,7 +97,7 @@ function LoginPage() {
                         name="password"
                         value={form.password}
                         onChange={handleChange}
-                        placeholder="Contrasena"
+                        placeholder="Contraseña"
                         disabled={status === "loading"}
                     />
                 </div>
@@ -107,10 +107,10 @@ function LoginPage() {
                     type="submit"
                     disabled={status === "loading"}
                 >
-                    {status === "loading" ? "Iniciando sesion..." : "Iniciar sesion"}
+                    {status === "loading" ? "Iniciando sesión..." : "Iniciar sesión"}
                 </button>
                 <p className="login-form__register">
-                    ¿No tenes cuenta? <Link to="/register">Registrate</Link>
+                    ¿No tenés cuenta? <Link to="/register">Registrate</Link>
                 </p>
             </form>
 

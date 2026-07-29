@@ -11,7 +11,7 @@ interface TaskListProps {
 
 function TaskList({ tasks, onToggle, onDelete, onEdit }: TaskListProps) {
     if (tasks.length === 0) {
-        return <p className="task-empty">No hay tareas todavia. Agrega la primera.</p>;
+        return <p className="task-empty">No hay tareas todavía. Agregá la primera.</p>;
     }
 
     return (

@@ -122,7 +122,7 @@ function RegisterPage() {
             </button>
 
             <p className="register-footer">
-                ¿Ya tenes cuenta? <a href="/login">Inicia sesion</a>
+                ¿Ya tenés cuenta? <a href="/login">Inicia sesión</a>
             </p>
         </div>
     );
