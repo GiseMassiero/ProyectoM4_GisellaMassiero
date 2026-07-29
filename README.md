@@ -17,14 +17,22 @@ https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero
 - **Página de BIENVENIDA AL GESTOR DE TAREAS
 - 
 
- <img width="1056" height="710" alt="Captura de pantalla_27-7-2026_233432_localhost" src="https://github.com/user-attachments/assets/e2ea940c-b703-4ab9-94aa-2e3186016d90" />
+<img width="1247" height="763" alt="Captura de pantalla_28-7-2026_223213_proyecto-m4-gisella-massiero vercel app" src="https://github.com/user-attachments/assets/de8a868c-f593-4ccc-9ee5-6bfed58e676d" />
+
  
  
 **Autenticación:** registro y login con email/contraseña y con Google, rutas privadas,
   sesión persistente, errores de Firebase traducidos a mensajes legibles.
 
 
-<img width="354" height="725" alt="Captura de pantalla_27-7-2026_233517_localhost" src="https://github.com/user-attachments/assets/3c340e62-8d59-4937-b432-86bb434beb2c" />
+<img width="1891" height="757" alt="Captura de pantalla_28-7-2026_223224_proyecto-m4-gisella-massiero vercel app" src="https://github.com/user-attachments/assets/4aebb055-492f-47de-bdaa-dbd376214df0" />
+
+
+**Registro** con email/contraseña:
+
+
+<img width="745" height="721" alt="Captura de pantalla_28-7-2026_223237_proyecto-m4-gisella-massiero vercel app" src="https://github.com/user-attachments/assets/317d8af6-7a9c-45fe-af6d-fdfeb63fffb6" />
+
 
 
 - **Gestión de tareas (CRUD):** crear, editar, eliminar y marcar como completada. Cada usuario ve únicamente sus propias tareas.
@@ -126,10 +134,15 @@ cp .env.example .env
 ```
 # Firebase (frontend — se puede exponer, la seguridad real la dan las Reglas de Firestore)
 VITE_FIREBASE_API_KEY=
+
 VITE_FIREBASE_AUTH_DOMAIN=
+
 VITE_FIREBASE_PROJECT_ID=
+
 VITE_FIREBASE_STORAGE_BUCKET=
+
 VITE_FIREBASE_MESSAGING_SENDER_ID=
+
 VITE_FIREBASE_APP_ID=
 
 
@@ -137,10 +150,13 @@ VITE_FIREBASE_APP_ID=
 
 # AWS SES (solo se usan del lado del servidor, en api/send-summary.ts)
 AWS_ACCESS_KEY_ID=
+
 AWS_SECRET_ACCESS_KEY=
+
 AWS_REGION=
+
 SES_SENDER_EMAIL=
-```
+
 
 Las claves de Firebase se obtienen en Firebase Console → Configuración del proyecto → Tus apps.
 Las de AWS se generan en IAM (usuario con permiso `AmazonSESFullAccess`) → Credenciales de
