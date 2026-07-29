@@ -12,10 +12,92 @@ https://github.com/GiseMassiero/ProyectoM4_GisellaMassiero
 
 ---
 
+## 🏗️ Arquitectura y Diseño
+
+### Visión general
+
+La app sigue una arquitectura de **SPA + BaaS + función serverless**: no hay un backend
+propio corriendo 24/7, sino que el frontend habla directo con Firebase para todo lo que es
+auth y datos, y solo pasa por un servidor (la función de Vercel) para la única operación que
+necesita un secreto que no puede vivir en el navegador: mandar el email por AWS SES.
+
+
+
+```mermaid
+flowchart LR
+    subgraph Cliente["Navegador (React SPA)"]
+        UI[Componentes / Pages]
+        Ctx[AuthContext]
+        Srv[services/]
+    end
+
+    subgraph Vercel["Vercel"]
+        Static[Frontend estático]
+        Fn["api/send-summary.ts"]
+    end
+
+    subgraph Firebase
+        Auth[Firebase Auth]
+        FS[(Firestore)]
+    end
+
+    SES[AWS SES]
+
+    UI --> Ctx
+    UI --> Srv
+    Srv -- "Auth (login, registro, sesión)" --> Auth
+    Srv -- "CRUD tareas + onSnapshot" --> FS
+    Srv -- "POST /api/send-summary" --> Fn
+    Fn -- "SendEmailCommand" --> SES
+    Static -.sirve.-> Cliente
+
+```
+
+
+
+Dos caminos de datos bien separados:
+
+- **Cliente → Firebase (directo):** login/registro y el CRUD de tareas. Firebase maneja la
+  seguridad con reglas de Firestore por `uid`, así que no hace falta un backend intermedio
+  para esto.
+- **Cliente → función serverless → AWS SES:** el único flujo que toca un secreto (las
+  credenciales de AWS), por eso es el único que no puede resolverse directo desde el
+  navegador. Está detallado en [Flujo de envío de emails](#-flujo-de-envío-de-emails).
+
+### Patrones de diseño aplicados
+
+- **Capa de servicios (`services/`):** ningún componente llama a Firebase o a `fetch`
+  directamente; todo pasa por `firebase.ts`, `firestore.ts` y `email.ts`. Esto aísla la
+  lógica de datos de la UI y es lo que permite mockear Firebase por completo en los tests.
+- **Context API para auth (`features/auth`):** el estado de sesión (usuario logueado) vive en
+  un contexto global vía `useAuth`, en vez de pasarse como prop por toda la app.
+- **Rutas protegidas (`RequireAuth`):** componente wrapper que redirige a `/login` si no hay
+  sesión, en vez de repetir la validación en cada página privada.
+- **Datos reactivos, no polling:** la lista de tareas se suscribe con `onSnapshot` y se
+  actualiza sola cuando cambia algo en Firestore, sin recargar ni refetchear a mano.
+- **Separación página vs. componente:** `pages/` son las pantallas que cuelgan de una ruta;
+  `components/` son piezas reutilizables (formularios, modales, items) que esas páginas
+  arman. Ver el detalle completo en [Estructura del proyecto](#-estructura-del-proyecto).
+
+### Diseño de UI/UX
+
+- **Modo claro/oscuro:** toggle manual con la preferencia guardada en el navegador, para no
+  forzar un tema en cada visita.
+- **Feedback explícito de estados:** las acciones que dependen de un servicio externo
+  (mandar el resumen por email) muestran los tres estados posibles al usuario — cargando,
+  éxito, error — en vez de fallar en silencio.
+- **Errores de Firebase traducidos:** los mensajes de error de Auth (que Firebase devuelve en
+  inglés y en formato de código) se traducen a texto legible antes de mostrarse.
+- **Filtros de vista (Todas/Pendientes/Completadas):** filtrado en el cliente sobre la lista
+  ya suscripta, sin pedir de nuevo a Firestore por cada cambio de filtro.
+
+---
+
+
 ## 📋  Funcionalidades
 
-- **Página de BIENVENIDA AL GESTOR DE TAREAS
-- 
+- **Página de "BIENVENIDA AL GESTOR DE TAREAS"
+
 
 <img width="1247" height="763" alt="Captura de pantalla_28-7-2026_223213_proyecto-m4-gisella-massiero vercel app" src="https://github.com/user-attachments/assets/de8a868c-f593-4ccc-9ee5-6bfed58e676d" />
 
