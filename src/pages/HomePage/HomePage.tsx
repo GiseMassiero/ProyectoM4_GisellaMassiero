@@ -28,7 +28,7 @@ function HomePage() {
 
     useEffect(() => {
         if (!user) return;
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- reseteo intencional de loading al cambiar de usuario, antes de suscribirse
         setLoading(true);
         const unsubscribe = subscribeToUserTasks(
             user.uid,

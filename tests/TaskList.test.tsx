@@ -11,7 +11,7 @@ const tasks: Task[] = [
 describe("TaskList", () => {
     it("muestra el mensaje vacio cuando no hay tareas", () => {
         render(<TaskList tasks={[]} onToggle={vi.fn()} onDelete={vi.fn()} onEdit={vi.fn()} />);
-        expect(screen.getByText(/no hay tareas todavia/i)).toBeInTheDocument();
+        expect(screen.getByText(/no hay tareas todavía/i)).toBeInTheDocument();
     });
 
     it("renderiza una tarea por cada item de la lista", () => {
